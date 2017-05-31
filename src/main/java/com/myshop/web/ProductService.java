@@ -29,22 +29,22 @@ public class ProductService {
 	
 	@GET
 	@Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Product getProduct(@PathParam("id") Long id) {
 		Product p = repo.findById(id);
-        if (p == null) {
-            throw new NotFoundException();
-        }
+		if (p == null) {
+			throw new NotFoundException();
+		}
 		return p;
 	}
 
 	@GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public List<Product> getProducts() {
 		List<Product> list = repo.findAll();
-        if (list == null || list.size() == 0) {
-            list = null;
-        }
+		if (list == null || list.size() == 0) {
+			list = null;
+		}
 		return list;
 	}
 
@@ -60,21 +60,21 @@ public class ProductService {
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public void updateProduct(@PathParam("id") Long id, Product p) {
 		if (id != p.getId()) {
-            throw new BadRequestException();
+			throw new BadRequestException();
 		}
-        if (repo.findById(id) == null) {
-            throw new NotFoundException();
-        }
-        repo.update(p);
+		if (repo.findById(id) == null) {
+			throw new NotFoundException();
+		}
+		repo.update(p);
 	}
 
 	@DELETE
 	@Path("{id}")
 	public void deleteProduct(@PathParam("id") Long id) {
 		Product p = repo.findById(id);
-        if (p == null) {
-            throw new NotFoundException();
-        }
-        repo.delete(p);
+		if (p == null) {
+			throw new NotFoundException();
+		}
+		repo.delete(p);
 	}
 }

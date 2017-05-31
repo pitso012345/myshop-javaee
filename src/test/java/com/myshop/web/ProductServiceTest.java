@@ -30,14 +30,14 @@ public class ProductServiceTest {
 	@Deployment(testable=false)
 	public static Archive<?> createDeployment() {
 		WebArchive war = ShrinkWrap.create(WebArchive.class, "myshop.war")
-	    		.addClasses(ApplicationConfig.class, ProductService.class,
+				.addClasses(ApplicationConfig.class, ProductService.class,
 	    				ProductRepository.class, Product.class)
-	    		.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-	    		.addAsResource("META-INF/persistence.xml");
+				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+				.addAsResource("META-INF/persistence.xml");
 
 		System.out.println(war.toString(true));
-	    return war;
-	 }
+		return war;
+	}
 
 	@Test
 	@InSequence(1) 
@@ -45,16 +45,16 @@ public class ProductServiceTest {
 		Product p = new Product("iphone 7", "apple", 20.0f);
 		Response response = target.request().post(Entity.xml(p));
 		// Successful HTTP response: 201, “Created”
-        assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
-        System.out.println("Location: " + response.getLocation());
-        response.close();
-        
+		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
+		System.out.println("Location: " + response.getLocation());
+		response.close();
+
 		p = new Product("galaxy 7", "samsung", 15.0f);
 		response = target.request().post(Entity.json(p));
 		// Successful HTTP response: 201, “Created”
-        assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
-        System.out.println("Location: " + response.getLocation());
-        response.close();
+		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
+		System.out.println("Location: " + response.getLocation());
+		response.close();
 	}
 
 	@Test
@@ -62,9 +62,9 @@ public class ProductServiceTest {
 	public void shouldGetExistingProduct(@ArquillianResteasyResource("products/1") WebTarget target) {
 		Response response = target.request(MediaType.APPLICATION_XML).get();
 		// Successful HTTP response: 200, “OK”
-        assertEquals(Status.OK.getStatusCode(), response.getStatus());
-        System.out.println("Response body: " + response.readEntity(String.class));
-        response.close();
+		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+		System.out.println("Response body: " + response.readEntity(String.class));
+		response.close();
 	}
 
 	@Test
@@ -72,9 +72,9 @@ public class ProductServiceTest {
 	public void shouldGetAllExistingProduct(@ArquillianResteasyResource("products") WebTarget target) {
 		Response response = target.request(MediaType.APPLICATION_JSON).get();
 		// Successful HTTP response: 200, “OK”
-        assertEquals(Status.OK.getStatusCode(), response.getStatus());
-        System.out.println("Response body: " + response.readEntity(String.class));
-        response.close();
+		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+		System.out.println("Response body: " + response.readEntity(String.class));
+		response.close();
 	}
 
 	@Test
@@ -88,10 +88,10 @@ public class ProductServiceTest {
 
 		Response response = target.request().put(Entity.json(p));
 		// Successful HTTP response: 204, “No Content”
-        assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
-        response.close();
+		assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
+		response.close();
 		String body = target.request(MediaType.APPLICATION_XML).get(String.class);
-        System.out.println("Response body: " + body);
+		System.out.println("Response body: " + body);
 	}
 	
 	@Test
@@ -99,11 +99,11 @@ public class ProductServiceTest {
 	public void shouldDeleteExistingProduct(@ArquillianResteasyResource("products/1") WebTarget target) {
 		Response response = target.request().delete();
 		// Successful HTTP response: 204, “No Content”
-        assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
+		assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-        response = target.request(MediaType.APPLICATION_XML).get();
+		response = target.request(MediaType.APPLICATION_XML).get();
 		// Error HTTP response: 404, “Not Found”
-        assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
-        response.close();
+		assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
+		response.close();
 	}
 }
