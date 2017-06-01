@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,7 +28,9 @@ public class Product implements Serializable {
 	@NotNull @Digits(integer=6,fraction=2)
 	@Column(precision=8,scale=2)
 	private Float price;
-
+	@Version
+	private int version;
+	
 	// This default constructor is required if there are other constructors.
 	public Product() {}
 	
@@ -50,6 +53,9 @@ public class Product implements Serializable {
 
 	public Float getPrice() { return price; }
 	public void setPrice(Float price) { this.price = price; }
+
+	public int getVersion() { return version; }
+	public void setVersion(int version) { this.version = version; }
 
 	@Override
 	public int hashCode() {
