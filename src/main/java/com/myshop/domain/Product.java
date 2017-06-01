@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -14,8 +17,11 @@ public class Product implements Serializable {
 
 	@Id @GeneratedValue
 	private Long id;
+	@NotNull @Size(max=50)
 	private String name;
+	@NotNull @Size(max=100)
 	private String description;
+	@NotNull @Digits(integer=6,fraction=2)
 	private Float price;
 
 	// This default constructor is required if there are other constructors.
