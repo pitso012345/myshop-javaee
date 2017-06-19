@@ -1,4 +1,4 @@
-package com.myshop.web;
+package com.myshop.service;
 
 import static org.junit.Assert.*;
 
@@ -21,17 +21,18 @@ import org.junit.runner.RunWith;
 
 import com.myshop.domain.Product;
 import com.myshop.repository.ProductRepository;
-import com.myshop.web.AppConfig;
-import com.myshop.web.ProductService;
+import com.myshop.service.AppConfig;
+import com.myshop.service.ProductResource;
 
 @RunWith(Arquillian.class)
-public class ProductServiceTest {
+public class ProductResourceTest {
 
 	@Deployment(testable=false)
 	public static Archive<?> createDeployment() {
 		WebArchive war = ShrinkWrap.create(WebArchive.class, "myshop.war")
-				.addClasses(AppConfig.class, ProductService.class,
-	    				ProductRepository.class, Product.class)
+				.addClasses(AppConfig.class, ProductResource.class,
+						ProductResourceImpl.class, ProductRepository.class,
+						Product.class)
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.addAsResource("META-INF/persistence.xml");
 

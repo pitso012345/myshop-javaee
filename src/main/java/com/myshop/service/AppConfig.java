@@ -1,4 +1,4 @@
-package com.myshop.web;
+package com.myshop.service;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
