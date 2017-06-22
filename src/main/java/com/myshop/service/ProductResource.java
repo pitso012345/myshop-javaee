@@ -18,6 +18,10 @@ import com.myshop.domain.Product;
 @Path("/products")
 public interface ProductResource {
 	
+	@POST
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response addProduct(Product p);
+	
 	@GET
 	@Path("{id}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -26,10 +30,6 @@ public interface ProductResource {
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public List<Product> getProducts();
-
-	@POST
-	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response addProduct(Product p);
 	
 	@PUT
 	@Path("{id}")

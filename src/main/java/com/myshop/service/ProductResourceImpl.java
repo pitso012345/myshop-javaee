@@ -18,6 +18,11 @@ public class ProductResourceImpl implements ProductResource {
 	@Inject
 	private ProductRepository repo;
 	
+	public Response addProduct(Product p) {
+		repo.save(p);
+		return Response.created(URI.create("products/" + p.getId())).build();
+	}
+
 	public Product getProduct(Long id) {
 		Product p = repo.findById(id);
 		if (p == null) {
@@ -32,11 +37,6 @@ public class ProductResourceImpl implements ProductResource {
 			list = null;
 		}
 		return list;
-	}
-
-	public Response addProduct(Product p) {
-		repo.save(p);
-		return Response.created(URI.create("products/" + p.getId())).build();
 	}
 
 	public void updateProduct(Long id, Product p) {
