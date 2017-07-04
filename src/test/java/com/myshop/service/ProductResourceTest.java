@@ -26,9 +26,9 @@ import com.myshop.service.ProductResource;
 @RunWith(Arquillian.class)
 public class ProductResourceTest {
 
-	private static final String PRODUCTS_URL   = "/products";
-	private static final String PRODUCTS_1_URL = "/products/1";
-	private static final String PRODUCTS_2_URL = "/products/2";
+	private static final String PRODUCTS_URL   = "products";
+	private static final String PRODUCTS_1_URL = "products/1";
+	private static final String PRODUCTS_2_URL = "products/2";
 	
 	@Deployment(testable=false)
 	public static Archive<?> createDeployment() {
