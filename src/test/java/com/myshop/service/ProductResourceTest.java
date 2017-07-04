@@ -41,17 +41,9 @@ public class ProductResourceTest {
 	}
 
 	@Test
-	@InSequence(1) 
 	public void shouldAddNewProduct(@ArquillianResteasyResource("products") WebTarget target) {
 		Product p = new Product("iphone 7", "apple", 20.0f);
-		Response response = target.request().post(Entity.xml(p));
-		// Successful HTTP response: 201, “Created”
-		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
-		System.out.println("Location: " + response.getLocation());
-		response.close();
-
-		p = new Product("galaxy 7", "samsung", 15.0f);
-		response = target.request().post(Entity.json(p));
+		Response response = target.request().post(Entity.json(p));
 		// Successful HTTP response: 201, “Created”
 		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 		System.out.println("Location: " + response.getLocation());
@@ -59,18 +51,7 @@ public class ProductResourceTest {
 	}
 
 	@Test
-	@InSequence(2)
 	public void shouldGetExistingProduct(@ArquillianResteasyResource("products/1") WebTarget target) {
-		Response response = target.request(MediaType.APPLICATION_XML).get();
-		// Successful HTTP response: 200, “OK”
-		assertEquals(Status.OK.getStatusCode(), response.getStatus());
-		System.out.println("Response body: " + response.readEntity(String.class));
-		response.close();
-	}
-
-	@Test
-	@InSequence(3)
-	public void shouldGetAllExistingProduct(@ArquillianResteasyResource("products") WebTarget target) {
 		Response response = target.request(MediaType.APPLICATION_JSON).get();
 		// Successful HTTP response: 200, “OK”
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
@@ -79,15 +60,24 @@ public class ProductResourceTest {
 	}
 
 	@Test
-	@InSequence(4)
+	public void shouldGetAllExistingProducts(@ArquillianResteasyResource("products") WebTarget target) {
+		Response response = target.request(MediaType.APPLICATION_JSON).get();
+		// Successful HTTP response: 200, “OK”
+		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+		System.out.println("Response body: " + response.readEntity(String.class));
+		response.close();
+	}
+
+	@Test
 	public void shouldUpdateExistingProduct(@ArquillianResteasyResource("products/1") WebTarget target) {
+		// test for xml support
 		Product p = target.request(MediaType.APPLICATION_XML).get(Product.class);
 		//update product details
 		p.setName("mate 9");
 		p.setDescription("huawei");
 		p.setPrice(10.0f);
 
-		Response response = target.request().put(Entity.json(p));
+		Response response = target.request().put(Entity.xml(p));
 		// Successful HTTP response: 204, “No Content”
 		assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
 		response.close();
@@ -97,12 +87,12 @@ public class ProductResourceTest {
 	
 	@Test
 	@InSequence(5)
-	public void shouldDeleteExistingProduct(@ArquillianResteasyResource("products/1") WebTarget target) {
+	public void shouldDeleteExistingProduct(@ArquillianResteasyResource("products/2") WebTarget target) {
 		Response response = target.request().delete();
 		// Successful HTTP response: 204, “No Content”
 		assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
-		response = target.request(MediaType.APPLICATION_XML).get();
+		response = target.request(MediaType.APPLICATION_JSON).get();
 		// Error HTTP response: 404, “Not Found”
 		assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 		response.close();
