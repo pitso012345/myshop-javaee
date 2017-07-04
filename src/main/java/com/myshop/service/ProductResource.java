@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.myshop.domain.Product;
+import com.myshop.domain.Products;
 
 @Path("/products")
 public interface ProductResource {
@@ -28,9 +29,13 @@ public interface ProductResource {
 	public Product getProduct(@PathParam("id") Long id);
 
 	@GET
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<Product> getProducts();
 	
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public Products getProductsXml();
+
 	@PUT
 	@Path("{id}")
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

@@ -34,7 +34,7 @@ public class ProductResourceTest {
 	public static Archive<?> createDeployment() {
 		WebArchive war = ShrinkWrap.create(WebArchive.class, "myshop.war")
 				.addClasses(AppConfig.class, ProductResource.class,
-						ProductResourceImpl.class, ProductRepository.class,
+						ProductResourceBean.class, ProductRepository.class,
 						Product.class)
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.addAsResource("META-INF/persistence.xml");

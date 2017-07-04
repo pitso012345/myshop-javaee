@@ -10,10 +10,11 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 
 import com.myshop.domain.Product;
+import com.myshop.domain.Products;
 import com.myshop.repository.ProductRepository;
 
 @Stateless
-public class ProductResourceImpl implements ProductResource {
+public class ProductResourceBean implements ProductResource {
 
 	@Inject
 	private ProductRepository repo;
@@ -39,6 +40,11 @@ public class ProductResourceImpl implements ProductResource {
 		return list;
 	}
 
+	public Products getProductsXml() {
+		List<Product> list = getProducts();
+		return (list == null) ? null : new Products(list);
+	}
+	
 	public void updateProduct(Long id, Product p) {
 		if (id != p.getId()) {
 			throw new BadRequestException();
