@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response.Status;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.extension.rest.client.ArquillianResteasyResource;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.junit.InSequence;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -27,6 +26,10 @@ import com.myshop.service.ProductResource;
 @RunWith(Arquillian.class)
 public class ProductResourceTest {
 
+	private static final String PRODUCTS_URL   = "/products";
+	private static final String PRODUCTS_1_URL = "/products/1";
+	private static final String PRODUCTS_2_URL = "/products/2";
+	
 	@Deployment(testable=false)
 	public static Archive<?> createDeployment() {
 		WebArchive war = ShrinkWrap.create(WebArchive.class, "myshop.war")
@@ -41,7 +44,7 @@ public class ProductResourceTest {
 	}
 
 	@Test
-	public void shouldAddNewProduct(@ArquillianResteasyResource("products") WebTarget target) {
+	public void shouldAddNewProduct(@ArquillianResteasyResource(PRODUCTS_URL) WebTarget target) {
 		Product p = new Product("iphone 7", "apple", 20.0f);
 		Response response = target.request().post(Entity.json(p));
 		// Successful HTTP response: 201, “Created”
@@ -51,7 +54,7 @@ public class ProductResourceTest {
 	}
 
 	@Test
-	public void shouldGetExistingProduct(@ArquillianResteasyResource("products/1") WebTarget target) {
+	public void shouldGetExistingProduct(@ArquillianResteasyResource(PRODUCTS_1_URL) WebTarget target) {
 		Response response = target.request(MediaType.APPLICATION_JSON).get();
 		// Successful HTTP response: 200, “OK”
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
@@ -60,7 +63,7 @@ public class ProductResourceTest {
 	}
 
 	@Test
-	public void shouldGetAllExistingProducts(@ArquillianResteasyResource("products") WebTarget target) {
+	public void shouldGetAllExistingProducts(@ArquillianResteasyResource(PRODUCTS_URL) WebTarget target) {
 		Response response = target.request(MediaType.APPLICATION_JSON).get();
 		// Successful HTTP response: 200, “OK”
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
@@ -69,7 +72,7 @@ public class ProductResourceTest {
 	}
 
 	@Test
-	public void shouldUpdateExistingProduct(@ArquillianResteasyResource("products/1") WebTarget target) {
+	public void shouldUpdateExistingProduct(@ArquillianResteasyResource(PRODUCTS_1_URL) WebTarget target) {
 		// test for xml support
 		Product p = target.request(MediaType.APPLICATION_XML).get(Product.class);
 		//update product details
@@ -86,8 +89,7 @@ public class ProductResourceTest {
 	}
 	
 	@Test
-	@InSequence(5)
-	public void shouldDeleteExistingProduct(@ArquillianResteasyResource("products/2") WebTarget target) {
+	public void shouldDeleteExistingProduct(@ArquillianResteasyResource(PRODUCTS_2_URL) WebTarget target) {
 		Response response = target.request().delete();
 		// Successful HTTP response: 204, “No Content”
 		assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
